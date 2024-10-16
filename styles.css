@@ -1,0 +1,671 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0a0a0c;
+    color: #fff;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+#app {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #1e2328;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.timer {
+    font-size: 24px;
+    font-weight: bold;
+    color: #c8aa6e;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+}
+
+.team-area {
+    width: 25%;
+    background-color: rgba(30, 35, 40, 0.8); /* 半透明背景 */
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(5px); /* 添加模糊效果 */
+}
+
+.team-area h2 {
+    color: #c8aa6e;
+    text-align: center;
+}
+
+.character-slots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.character-slot {
+    aspect-ratio: 1;
+    background-color: #2b2b2b;
+    border: 2px solid #c8aa6e;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #c8aa6e;
+    font-size: 12px;
+    text-align: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    padding: 5px;
+}
+
+#spell-pool {
+    width: 45%;
+    background-color: rgba(30, 35, 40, 0.8); /* 半透明背景 */
+    padding: 10px;
+    border-radius: 5px;
+    backdrop-filter: blur(5px); /* 添加模糊效果 */
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.filters select, .filters input {
+    background-color: rgba(43, 43, 43, 0.8); /* 半透明背景 */
+    color: #fff;
+    border: 1px solid #c8aa6e;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+#spirits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.spirit-item {
+    position: relative;
+    aspect-ratio: 1;
+    background-color: rgba(43, 43, 43, 0.8); /* 半透明背景 */
+    border: 1px solid #c8aa6e;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.spirit-item:hover:not(.banned) {
+    background-color: rgba(58, 58, 58, 0.8); /* 半透明背景 */
+    transform: scale(1.05);
+}
+
+.spirit-item.banned::after {
+    content: '禁用';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.spirit-item.banned {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.spirit-item.banned-blue {
+    border-color: #0077be;
+    background-color: rgba(0, 119, 190, 0.4); /* 半透明背景 */
+}
+
+.spirit-item.banned-red {
+    border-color: #ff4655;
+    background-color: rgba(255, 70, 85, 0.4); /* 半透明背景 */
+}
+
+.spirit-item.banned img {
+    opacity: 0.5;
+}
+
+.spirit-item span {
+    font-size: 12px;
+    text-align: center;
+    color: #c8aa6e;
+}
+
+.warning {
+    color: #ff4655;
+}
+
+button {
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #d5b979;
+}
+
+.banned-spirits, .selected-spirits {
+    margin-top: 10px;
+}
+
+.banned-spirit, .selected-spirit {
+    background-color: #2b2b2b;
+    border: 1px solid #c8aa6e;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+#phase-display {
+    font-size: 18px;
+    font-weight: bold;
+    color: #c8aa6e;
+    margin-bottom: 10px;
+}
+
+.spirit-item.selected {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.spirit-item.selected-blue {
+    border-color: #0077be;
+    background-color: rgba(0, 119, 190, 0.4); /* 半透明背景 */
+}
+
+.spirit-item.selected-red {
+    border-color: #ff4655;
+    background-color: rgba(255, 70, 85, 0.4); /* 半透明背景 */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: rgba(30, 35, 40, 0.9); /* 半透明背景 */
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #c8aa6e;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 5px;
+    backdrop-filter: blur(10px); /* 添加模糊效果 */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #c8aa6e;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.history-record {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #2b2b2b;
+    border-radius: 5px;
+}
+
+.history-record h3 {
+    color: #c8aa6e;
+    margin-bottom: 10px;
+}
+
+.team-history {
+    display: flex;
+    justify-content: space-between;
+}
+
+.blue-team, .red-team {
+    width: 48%;
+}
+
+.blue-team h4 {
+    color: #0077be;
+}
+
+.red-team h4 {
+    color: #ff4655;
+}
+
+#reset-button, #history-button {
+    margin-left: 10px;
+}
+
+#clear-history-button {
+    margin-top: 20px;
+    background-color: #ff4655;
+    color: #fff;
+}
+
+#clear-history-button:hover {
+    background-color: #ff6b76;
+}
+
+.delete-record {
+    background-color: #ff4655;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.delete-record:hover {
+    background-color: #ff6b76;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    10%, 90% { opacity: 1; }
+}
+
+.settings {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.settings button {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.settings input[type="number"] {
+    width: 50px;
+}
+
+.team-timer {
+    font-size: 18px;
+    font-weight: bold;
+    color: #c8aa6e;
+    margin-left: 10px;
+}
+
+#timer-settings-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#timer-settings-modal input[type="number"] {
+    width: 60px;
+}
+
+#save-timer-settings {
+    align-self: flex-end;
+}
+
+/* 在文件末尾添加以下样式 */
+
+.center-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(200, 170, 110, 0.9);
+    color: #0a0a0c;
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+    animation: fadeInOut 1s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    10%, 90% { opacity: 1; }
+}
+
+.edit-team-name {
+    font-size: 12px;
+    padding: 2px 5px;
+    margin-left: 5px;
+    background-color: #2b2b2b;
+    color: #c8aa6e;
+    border: 1px solid #c8aa6e;
+    cursor: pointer;
+}
+
+.edit-team-name:hover {
+    background-color: #3a3a3a;
+}
+
+/* 添加新精灵表单的样式 */
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal form input,
+.modal form select {
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #c8aa6e;
+    background-color: #2b2b2b;
+    color: #fff;
+}
+
+.modal form button {
+    align-self: flex-end;
+}
+
+#add-spirit-button {
+    margin-bottom: 10px;
+}
+
+.delete-spirit {
+    background-color: #ff4655;
+    color: white;
+    border: none;
+    padding: 2px 5px;
+    margin-left: 5px;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.delete-spirit:hover {
+    background-color: #ff6b76;
+}
+
+#toggle-delete-mode {
+    margin-bottom: 10px;
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+}
+
+#toggle-delete-mode:hover {
+    background-color: #d5b979;
+}
+
+#spirit-pool-modal .modal-content {
+    max-width: 800px;
+}
+
+#spirit-pool-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 20px;
+}
+
+#spirit-pool-list .spirit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #c8aa6e;
+}
+
+#spirit-pool-list .spirit-item:last-child {
+    border-bottom: none;
+}
+
+#spirit-pool-modal form {
+    margin-top: 20px;
+}
+
+#toggle-delete-mode {
+    margin-left: 10px;
+}
+
+#spirit-pool-button {
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+}
+
+#spirit-pool-button:hover {
+    background-color: #d5b979;
+}
+
+.spirit-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+#spirit-types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+#spirit-types label {
+    display: flex;
+    align-items: center;
+}
+
+#spirit-types input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.character-slot img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.spirit-pool-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.spirit-pool-buttons button {
+    flex: 1;
+    margin: 0 5px;
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+}
+
+.spirit-pool-buttons button:hover {
+    background-color: #d5b979;
+}
+
+#delete-mode-button {
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+}
+
+#delete-mode-button:hover {
+    background-color: #d5b979;
+}
+
+#delete-mode-button.active {
+    background-color: #ff4655;
+    color: white;
+}
+
+#delete-mode-button.active:hover {
+    background-color: #ff6b76;
+}
+
+#type-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+#type-filter label {
+    display: flex;
+    align-items: center;
+    background-color: #2b2b2b;
+    padding: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#type-filter input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#type-filter {
+    height: auto;
+    min-height: 30px;
+    overflow-y: auto;
+}
+
+#type-filter option {
+    padding: 5px;
+}
+
+/* 添加以下样式 */
+#type-filter-button {
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#type-filter-button:hover {
+    background-color: #d5b979;
+}
+
+#type-filter-modal .modal-content {
+    max-width: 400px;
+}
+
+#type-filter-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#type-filter-options label {
+    display: flex;
+    align-items: center;
+}
+
+#type-filter-options input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#apply-type-filter {
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#apply-type-filter:hover {
+    background-color: #d5b979;
+}
+
+#change-background-button {
+    background-color: #c8aa6e;
+    color: #0a0a0c;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#change-background-button:hover {
+    background-color: #d5b979;
+}
+
+/* 添加以下滚动条样式 */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e2328;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 对于Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #333 #1e2328;
+}

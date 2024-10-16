@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奥奇传说精灵选择系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>奥奇传说精灵选择系统</h1>
+            <div id="phase-display"></div>
+            <div class="settings">
+                <label for="spirit-count">每队精灵数量：</label>
+                <input type="number" id="spirit-count" min="1" max="10" value="5">
+                <button id="timer-settings-button">时间设置</button>
+                <button id="spirit-pool-button">精灵池</button>
+                <button id="delete-mode-button">删除</button>
+                <input type="file" id="background-image-input" accept="image/*" style="display: none;">
+                <button id="change-background-button">更改背景</button>
+            </div>
+            <button id="start-button">开始选择</button>
+            <button id="pause-button" style="display: none;">暂停</button>
+            <button id="reset-button">重置选择</button>
+            <button id="history-button">查看历史</button>
+        </header>
+        <main>
+            <div id="blue-team" class="team-area">
+                <h2>
+                    <span class="team-name">蓝队</span>
+                    <button class="edit-team-name" data-team="blue">编辑</button>
+                    <span class="team-timer"></span>
+                </h2>
+                <div class="banned-spirits"></div>
+                <div class="character-slots"></div>
+                <div class="selected-spirits"></div>
+            </div>
+            <div id="spell-pool">
+                <div class="filters">
+                    <select id="attribute-filter">
+                        <option value="">所有属性</option>
+                        <option value="神火">神火</option>
+                        <option value="神水">神水</option>
+                        <option value="神草">神草</option>
+                        <option value="神光">神光</option>
+                        <option value="神暗">神暗</option>
+                        <option value="神灵">神灵</option>
+                        <option value="神幻">神幻</option>
+                        <option value="神无极">神无极</option>
+                    </select>
+                    <select id="rarity-filter">
+                        <option value="">所有时代</option>
+                        <option value="启元">启元</option>
+                        <option value="星迹">星迹</option>
+                        <option value="神运">神运</option>
+                    </select>
+                    <button id="type-filter-button">职业筛选</button>
+                    <input type="text" id="search-input" placeholder="搜索精灵名称或编号">
+                </div>
+                <div id="spirits-grid"></div>
+            </div>
+            <div id="red-team" class="team-area">
+                <h2>
+                    <span class="team-name">红队</span>
+                    <button class="edit-team-name" data-team="red">编辑</button>
+                    <span class="team-timer"></span>
+                </h2>
+                <div class="banned-spirits"></div>
+                <div class="character-slots"></div>
+                <div class="selected-spirits"></div>
+            </div>
+        </main>
+        <div id="history-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>选择历史</h2>
+                <div id="history-content"></div>
+                <button id="clear-history-button">清除历史记录</button>
+            </div>
+        </div>
+        <div id="timer-settings-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>时间设置</h2>
+                <div>
+                    <label for="ban-time">禁用时间（秒）：</label>
+                    <input type="number" id="ban-time" min="1" max="60" value="30">
+                </div>
+                <div>
+                    <label for="pick-time">选择时间（秒）：</label>
+                    <input type="number" id="pick-time" min="1" max="60" value="30">
+                </div>
+                <button id="save-timer-settings">保存设置</button>
+            </div>
+        </div>
+        <div id="spirit-pool-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>精灵池</h2>
+                <div class="spirit-pool-buttons">
+                    <button id="add-spirit-button">添加新精灵</button>
+                    <button id="import-spirits-button">导入精灵数据</button>
+                    <button id="import-images-button">导入图片</button>
+                    <button id="toggle-delete-mode">切换删除模式</button>
+                </div>
+                <input type="file" id="import-spirits-file" accept=".json" style="display: none;">
+                <input type="file" id="import-images-file" accept="image/*" multiple style="display: none;">
+                <div id="spirit-pool-list"></div>
+            </div>
+        </div>
+        <div id="type-filter-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>选择职业</h2>
+                <div id="type-filter-options">
+                    <label><input type="checkbox" value="神平衡"> 神平衡</label>
+                    <label><input type="checkbox" value="神攻"> 神攻</label>
+                    <label><input type="checkbox" value="神速"> 神速</label>
+                    <label><input type="checkbox" value="神盾"> 神盾</label>
+                    <label><input type="checkbox" value="神通灵师"> 神通灵师</label>
+                    <label><input type="checkbox" value="超级英雄"> 超级英雄</label>
+                    <label><input type="checkbox" value="神召唤师"> 神召唤师</label>
+                    <label><input type="checkbox" value="幻元师"> 幻元师</label>
+                    <label><input type="checkbox" value="元素师"> 元素师</label>
+                    <label><input type="checkbox" value="赋能师"> 赋能师</label>
+                    <label><input type="checkbox" value="天觉者"> 天觉者</label>
+                </div>
+                <button id="apply-type-filter">应用筛选</button>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

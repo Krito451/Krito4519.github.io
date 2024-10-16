@@ -1,0 +1,12 @@
+{
+  "name": "aochi-spirit-selector",
+  "version": "1.0.0",
+  "description": "Aochi Spirit Selector",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.3"
+  }
+}
