@@ -57,8 +57,6 @@ const spirits = [];
 
 // 预定义的精灵数据
 const predefinedSpirits = [
-  // 这里粘贴您之前在 spirits.json 中的所有精灵数据
-  // 例如：
   {
     "id": 1,
     "name": "[神运]伟大航路·尼莫妮",
@@ -66,7 +64,21 @@ const predefinedSpirits = [
     "rarity": "神运",
     "types": ["神平衡", "神通灵师"]
   },
-  // ... 其他精灵数据 ...
+  {
+    "id": 2,
+    "name": "[神运]神谕壮志·青云",
+    "attribute": "神水",
+    "rarity": "神运",
+    "types": ["神速"]
+  },
+  // ... 这里是所有其他精灵数据 ...
+  {
+    "id": 189,
+    "name": "[星迹]遥月幻歌·诺雅",
+    "attribute": "神幻",
+    "rarity": "星迹",
+    "types": ["神速", "元素师"]
+  }
 ];
 
 // 添加一个函数来添加新的精灵
@@ -123,7 +135,7 @@ function showAddSpiritForm() {
             <option value="神光">神光</option>
             <option value="神暗">神暗</option>
             <option value="神灵">神灵</option>
-            <option value="神幻">神幻</option>
+            <option value="���幻">神幻</option>
             <option value="神无极">神无极</option>
         </select>
         <select id="spirit-rarity" required>
