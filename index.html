@@ -19,12 +19,18 @@
                 <button id="delete-mode-button">删除</button>
                 <input type="file" id="background-image-input" accept="image/*" style="display: none;">
                 <button id="change-background-button">更改背景</button>
+                <button id="create-room-button">创建房间</button>
+                <button id="join-room-button">加入房间</button>
             </div>
             <button id="start-button">开始选择</button>
             <button id="pause-button" style="display: none;">暂停</button>
             <button id="reset-button">重置选择</button>
             <button id="history-button">查看历史</button>
         </header>
+        <div id="room-info" style="display: none;">
+            <p>房间号: <span id="room-id"></span></p>
+            <p>在线用户: <span id="online-users"></span></p>
+        </div>
         <main>
             <div id="blue-team" class="team-area">
                 <h2>
@@ -125,6 +131,26 @@
                     <label><input type="checkbox" value="天觉者"> 天觉者</label>
                 </div>
                 <button id="apply-type-filter">应用筛选</button>
+            </div>
+        </div>
+        <div id="create-room-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>创建房间</h2>
+                <label for="creator-name">您的名字：</label>
+                <input type="text" id="creator-name">
+                <button id="confirm-create-room">创建</button>
+            </div>
+        </div>
+        <div id="join-room-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>加入房间</h2>
+                <label for="room-id-input">房间号：</label>
+                <input type="text" id="room-id-input">
+                <label for="joiner-name">您的名字：</label>
+                <input type="text" id="joiner-name">
+                <button id="confirm-join-room">加入</button>
             </div>
         </div>
     </div>

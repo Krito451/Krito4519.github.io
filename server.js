@@ -9,7 +9,7 @@ const io = socketIo(server);
 
 // 提供静态文件
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 let currentState = {
     currentStep: 0,

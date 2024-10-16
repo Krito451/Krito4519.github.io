@@ -669,3 +669,8 @@ button:hover {
     scrollbar-width: thin;
     scrollbar-color: #333 #1e2328;
 }
+.spirit-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
