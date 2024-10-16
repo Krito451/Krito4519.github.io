@@ -1,9 +1,15 @@
 const express = require('express');
-const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const path = require('path');
+const http = require('http');
+const socketIo = require('socket.io');
 
-app.use(express.static('public'));
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
+// 提供静态文件
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 let currentState = {
     currentStep: 0,
@@ -55,6 +61,6 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

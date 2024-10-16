@@ -4,7 +4,7 @@
   "description": "Aochi Spirit Selector",
   "main": "index.html",
   "scripts": {
-    "start": "http-server"
+    "start": "http-server -p 8080 -c-1"
   },
   "devDependencies": {
     "http-server": "^0.12.3"
