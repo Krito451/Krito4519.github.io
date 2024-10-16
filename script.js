@@ -53,6 +53,22 @@ let bannedSpirits = { blue: [], red: [] };
 // 将精灵数组设置为空
 const spirits = [];
 
+// 在文件开头，全局变量区域添加以下代码
+
+// 预定义的精灵数据
+const predefinedSpirits = [
+  // 这里粘贴您之前在 spirits.json 中的所有精灵数据
+  // 例如：
+  {
+    "id": 1,
+    "name": "[神运]伟大航路·尼莫妮",
+    "attribute": "神水",
+    "rarity": "神运",
+    "types": ["神平衡", "神通灵师"]
+  },
+  // ... 其他精灵数据 ...
+];
+
 // 添加一个函数来添加新的精灵
 function addSpirit(name, attribute, rarity, types) {
     const newId = spirits.length > 0 ? Math.max(...spirits.map(s => s.id)) + 1 : 1;
@@ -73,6 +89,10 @@ function loadSpirits() {
     const savedSpirits = localStorage.getItem('spirits');
     if (savedSpirits) {
         spirits.push(...JSON.parse(savedSpirits));
+    } else {
+        // 如果本地存储中没有精灵数据，则使用预定义的数据
+        spirits.push(...predefinedSpirits);
+        saveSpirits(); // 将预定义的数据保存到本地存储
     }
 }
 
